@@ -1,0 +1,5 @@
+{
+  "editor.formatOnSave": true,
+  "editor.autoIndent": "none",
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
