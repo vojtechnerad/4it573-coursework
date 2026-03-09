@@ -10,6 +10,9 @@ function getNumberToGuess() {
   return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
 }
 
-for (let index = 1; index < maxNumberOfGuesses; index++) {
-  prompt(`Guess a number between ${minNumber} and ${maxNumber}`)
+let currentGuess = 1;
+while (currentGuess <= maxNumberOfGuesses) {
+  const answer = prompt(`Guess a number between ${minNumber} and ${maxNumber}`);
+
+  currentGuess++;
 }
