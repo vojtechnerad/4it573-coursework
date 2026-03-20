@@ -1,0 +1,22 @@
+body {
+  background-color: #252525;
+  color: white;
+}
+
+a {
+  color: rgb(90, 78, 255);
+}
+
+input[type='text'] {
+  background-color: #3a3a3a;
+  color: white;
+  border: 1px solid rgb(181, 181, 181);
+}
+
+button {
+  background-color: rgb(90, 78, 255);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
