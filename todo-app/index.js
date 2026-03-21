@@ -16,6 +16,21 @@ app.get('/', async (c) => {
   return c.html(html);
 });
 
+app.get('/todo/:id', async (c) => {
+  const id = Number(c.req.param('id'));
+  const todo = todos.find((todo) => todo.id === id);
+
+  if (todo) {
+    const html = await ejs.renderFile('views/todo-detail.html', {
+      todo,
+    });
+    return c.html(html);
+  } else {
+    const html = await ejs.renderFile('views/404.html');
+    return c.html(html);
+  }
+});
+
 app.post('add-todo', async (c) => {
   const body = await c.req.formData();
   const title = body.get('title');
@@ -25,6 +40,22 @@ app.post('add-todo', async (c) => {
     isDone: false,
   });
   return c.redirect('/');
+});
+
+app.post('update-todo', async (c) => {
+  const body = await c.req.formData();
+  const id = Number(body.get('id'));
+  const title = body.get('title');
+  let todo = todos.find((todo) => todo.id === id);
+
+  if (todo) {
+    todo.title = title;
+
+    return c.redirect(`/todo/${id}`);
+  } else {
+    const html = await ejs.renderFile('views/404.html');
+    return c.html(html);
+  }
 });
 
 app.get('/remove-todo/:id', async (c) => {
@@ -37,7 +68,9 @@ app.get('/toggle-todo/:id', async (c) => {
   const id = Number(c.req.param('id'));
   const todo = todos.find((todo) => todo.id === id);
   todo.isDone = !todo.isDone;
-  return c.redirect('/');
+
+  const referer = c.req.header('Referer');
+  return c.redirect(referer || '/');
 });
 
 app.get('/styles/:file', async (c) => {

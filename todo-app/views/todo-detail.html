@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo detail</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <h1>Todo detail</h1>
+
+    <form method="post" action="/update-todo">
+      <input type="hidden" name="id" value="<%= todo.id %>" />
+      <table>
+        <tr>
+          <td>Text</td>
+          <td>
+            <input type="text" name="title" value="<%= todo.title %>" />
+          </td>
+        </tr>
+        <tr>
+          <td>Stav</td>
+          <td>
+            <% if (todo.isDone) { %>
+            <span>✅ Splěno</span>
+            <% } else { %>
+            <span>❌ Nesplněno</span>
+            <% } %>
+          </td>
+        </tr>
+      </table>
+
+      <div>
+        <button type="submit">Upravit</button>
+        <a href="/" class="button-link">Zpět</a>
+
+        <% if (todo.isDone) { %>
+        <a href="/toggle-todo/<%= todo.id %>" class="button-link"
+          >Označit jako nesplněné</a
+        >
+        <% } else { %>
+        <a href="/toggle-todo/<%= todo.id %>" class="button-link"
+          >Označit jako splněné</a
+        >
+        <% } %>
+        <a href="/remove-todo/<%= todo.id %>" class="button-link">Odstranit</a>
+      </div>
+    </form>
+
+    <div></div>
+  </body>
+</html>
