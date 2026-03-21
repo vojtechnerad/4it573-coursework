@@ -13,10 +13,15 @@ input[type='text'] {
   border: 1px solid rgb(181, 181, 181);
 }
 
-button {
+button,
+.button-link {
   background-color: rgb(90, 78, 255);
   color: white;
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
+}
+
+.button-link {
+  text-decoration: none;
 }

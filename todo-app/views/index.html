@@ -3,27 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Homepage</title>
     <link rel="stylesheet" href="/styles/main.css" />
   </head>
   <body>
     <h1>TODOs</h1>
 
+    <form method="post" action="/add-todo">
+      <input type="text" name="title" />
+      <button type="submit">Přidat todo</button>
+    </form>
+
     <ul>
       <% for (const todo of todos) { %>
-      <li><%= todo.title %></li>
-      <% if (!todo.done) { %>
-      <a href="/toggle-todo/<%= todo.id %>">označit jako hotové</a>
-      <% } else { %>
-      <a href="/toggle-todo/<%= todo.id %>">označit jako nehotové</a>
+      <li>
+        <div>
+          <a href="/todo/<%= todo.id %>"><%= todo.title %></a>
+        </div>
+        <div>
+          <% if (todo.isDone) { %>
+          <a href="/toggle-todo/<%= todo.id %>">Označit jako nesplněné</a>
+          <% } else { %>
+          <a href="/toggle-todo/<%= todo.id %>">Označit jako splněné</a>
+          <% } %>
+          <a href="/remove-todo/<%= todo.id %>">Odstranit</a>
+        </div>
+      </li>
       <% } %>
-      <a href="/remove-todo/<%= todo.id %>">odstranit</a>
-      <% } %>
-
-      <form method="post" action="/add-todo">
-        <input type="text" name="title" />
-        <button type="submit">Přidat todo</button>
-      </form>
     </ul>
   </body>
 </html>
