@@ -8,6 +8,13 @@
       "when": 1774459884201,
       "tag": "0000_dashing_captain_midlands",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1774964659903,
+      "tag": "0001_add_priority_column",
+      "breakpoints": true
     }
   ]
 }
