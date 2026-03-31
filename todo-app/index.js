@@ -2,14 +2,19 @@ import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
 import ejs from 'ejs';
 
+import { drizzle } from 'drizzle-orm/libsql';
+import { todosTable } from './src/schema.js';
+import { eq } from 'drizzle-orm';
+
+const db = drizzle({
+  connection: 'file:db.sqlite',
+  logger: true,
+});
+
 const app = new Hono();
 
-let todos = [
-  { id: 1, title: 'Zajit na pivo', isDone: false },
-  { id: 2, title: 'Jit se uci node.js', isDone: true },
-];
-
 app.get('/', async (c) => {
+  const todos = await db.select().from(todosTable).all();
   const html = await ejs.renderFile('views/index.html', {
     todos,
   });
@@ -18,6 +23,7 @@ app.get('/', async (c) => {
 
 app.get('/todo/:id', async (c) => {
   const id = Number(c.req.param('id'));
+  const todos = await db.select().from(todosTable).all();
   const todo = todos.find((todo) => todo.id === id);
 
   if (todo) {
@@ -34,11 +40,11 @@ app.get('/todo/:id', async (c) => {
 app.post('add-todo', async (c) => {
   const body = await c.req.formData();
   const title = body.get('title');
-  todos.push({
-    id: todos.length + 1,
+  await db.insert(todosTable).values({
     title,
-    isDone: false,
+    done: false,
   });
+
   return c.redirect('/');
 });
 
@@ -66,8 +72,17 @@ app.get('/remove-todo/:id', async (c) => {
 
 app.get('/toggle-todo/:id', async (c) => {
   const id = Number(c.req.param('id'));
-  const todo = todos.find((todo) => todo.id === id);
-  todo.isDone = !todo.isDone;
+
+  const todo = await db
+    .select()
+    .from(todosTable)
+    .where(eq(todosTable.id, id))
+    .get();
+
+  await db
+    .update(todosTable)
+    .set({ done: !todo.done })
+    .where(eq(todosTable.id, id));
 
   const referer = c.req.header('Referer');
   return c.redirect(referer || '/');

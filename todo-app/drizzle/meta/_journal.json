@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1774459884201,
+      "tag": "0000_dashing_captain_midlands",
+      "breakpoints": true
+    }
+  ]
+}
