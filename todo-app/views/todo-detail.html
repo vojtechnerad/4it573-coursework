@@ -18,6 +18,18 @@
             <input type="text" name="title" value="<%= todo.title %>" />
           </td>
         </tr>
+
+        <tr>
+          <td>Priorita</td>
+          <td>
+            <select name="priority">
+              <option value="high" <%= todo.priority === 'high' ? 'selected' : '' %>>🔴 Vysoká</option>
+              <option value="medium" <%= todo.priority === 'medium' ? 'selected' : '' %>>🟡 Střední</option>
+              <option value="low" <%= todo.priority === 'low' ? 'selected' : '' %>>🟢 Nízká</option>
+            </select>
+          </td>
+        </tr>
+
         <tr>
           <td>Stav</td>
           <td>

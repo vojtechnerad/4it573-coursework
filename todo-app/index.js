@@ -23,8 +23,11 @@ app.get('/', async (c) => {
 
 app.get('/todo/:id', async (c) => {
   const id = Number(c.req.param('id'));
-  const todos = await db.select().from(todosTable).all();
-  const todo = todos.find((todo) => todo.id === id);
+  const todo = await db
+    .select()
+    .from(todosTable)
+    .where(eq(todosTable.id, id))
+    .get();
 
   if (todo) {
     const html = await ejs.renderFile('views/todo-detail.html', {
@@ -52,21 +55,19 @@ app.post('update-todo', async (c) => {
   const body = await c.req.formData();
   const id = Number(body.get('id'));
   const title = body.get('title');
-  let todo = todos.find((todo) => todo.id === id);
+  const priority = body.get('priority');
 
-  if (todo) {
-    todo.title = title;
+  await db
+    .update(todosTable)
+    .set({ title, priority })
+    .where(eq(todosTable.id, id));
 
-    return c.redirect(`/todo/${id}`);
-  } else {
-    const html = await ejs.renderFile('views/404.html');
-    return c.html(html);
-  }
+  return c.redirect(`/todo/${id}`);
 });
 
 app.get('/remove-todo/:id', async (c) => {
   const id = Number(c.req.param('id'));
-  todos = todos.filter((todo) => todo.id !== id);
+  await db.delete(todosTable).where(eq(todosTable.id, id));
   return c.redirect('/');
 });
 
