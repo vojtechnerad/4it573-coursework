@@ -21,6 +21,15 @@
           <a href="/todo/<%= todo.id %>"><%= todo.title %></a>
         </div>
         <div>
+          <% if (todo.priority === 'high') { %>
+          <span>🔴 Vysoká</span>
+          <% } else if (todo.priority === 'medium') { %>
+          <span>🟡 Střední</span>
+          <% } else if (todo.priority === 'low') { %>
+          <span>🟢 Nízká</span>
+          <% } %>
+        </div>
+        <div>
           <% if (todo.done) { %>
           <a href="/toggle-todo/<%= todo.id %>">Označit jako nesplněné</a>
           <% } else { %>
