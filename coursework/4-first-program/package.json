@@ -1,0 +1,16 @@
+{
+  "name": "first-program",
+  "version": "1.0.0",
+  "description": "My first program.",
+  "license": "ISC",
+  "author": "Vojtech Nerad",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2"
+  }
+}
