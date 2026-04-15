@@ -14,31 +14,22 @@
       <button type="submit">Přidat todo</button>
     </form>
 
-    <ul>
-      <% for (const todo of todos) { %>
-      <li>
-        <div>
-          <a href="/todo/<%= todo.id %>"><%= todo.title %></a>
-        </div>
-        <div>
-          <% if (todo.priority === 'high') { %>
-          <span>🔴 Vysoká</span>
-          <% } else if (todo.priority === 'medium') { %>
-          <span>🟡 Střední</span>
-          <% } else if (todo.priority === 'low') { %>
-          <span>🟢 Nízká</span>
-          <% } %>
-        </div>
-        <div>
-          <% if (todo.done) { %>
-          <a href="/toggle-todo/<%= todo.id %>">Označit jako nesplněné</a>
-          <% } else { %>
-          <a href="/toggle-todo/<%= todo.id %>">Označit jako splněné</a>
-          <% } %>
-          <a href="/remove-todo/<%= todo.id %>">Odstranit</a>
-        </div>
-      </li>
-      <% } %>
-    </ul>
+    <div id="todos"><%- include('_todos.html') %></div>
+
+    <script>
+      const ws = new WebSocket('ws://localhost:8000/ws');
+
+      ws.addEventListener('open', () => {
+        console.log('WS open');
+        ws.send('Hello, World!');
+      });
+
+      ws.addEventListener('message', (ev) => {
+        const json = JSON.parse(ev.data);
+        if (json.type === 'todos') {
+          document.getElementById('todos').innerHTML = json.html;
+        }
+      });
+    </script>
   </body>
 </html>

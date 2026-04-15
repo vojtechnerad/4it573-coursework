@@ -1,10 +1,12 @@
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
 import ejs from 'ejs';
+import { createNodeWebSocket } from '@hono/node-ws';
 
 import { drizzle } from 'drizzle-orm/libsql';
 import { todosTable } from './src/schema.js';
 import { eq } from 'drizzle-orm';
+import { WSContext } from 'hono/ws';
 
 const db = drizzle({
   connection: 'file:db.sqlite',
@@ -12,6 +14,30 @@ const db = drizzle({
 });
 
 const app = new Hono();
+
+const { injectWebSocket, upgradeWebSocket } = createNodeWebSocket({ app });
+
+/**
+ * @type {Set<WSContext<WebSocket>>}
+ */
+let webSockets = new Set();
+
+app.get(
+  '/ws',
+  upgradeWebSocket((c) => ({
+    onOpen: (evt, ws) => {
+      webSockets.add(ws);
+      console.log('open web sockets:', webSockets.size);
+    },
+    onMessage: () => {
+      console.log('message');
+    },
+    onClose: (evt, ws) => {
+      console.log('close');
+      webSockets.delete(ws);
+    },
+  })),
+);
 
 app.get('/', async (c) => {
   const todos = await db.select().from(todosTable).all();
@@ -48,6 +74,8 @@ app.post('add-todo', async (c) => {
     done: false,
   });
 
+  sendTodosToAllWebsockets();
+
   return c.redirect('/');
 });
 
@@ -62,12 +90,17 @@ app.post('update-todo', async (c) => {
     .set({ title, priority })
     .where(eq(todosTable.id, id));
 
+  sendTodosToAllWebsockets();
+
   return c.redirect(`/todo/${id}`);
 });
 
 app.get('/remove-todo/:id', async (c) => {
   const id = Number(c.req.param('id'));
   await db.delete(todosTable).where(eq(todosTable.id, id));
+
+  sendTodosToAllWebsockets();
+
   return c.redirect('/');
 });
 
@@ -84,6 +117,8 @@ app.get('/toggle-todo/:id', async (c) => {
     .update(todosTable)
     .set({ done: !todo.done })
     .where(eq(todosTable.id, id));
+
+  sendTodosToAllWebsockets();
 
   const referer = c.req.header('Referer');
   return c.redirect(referer || '/');
@@ -102,7 +137,30 @@ app.notFound(async (c) => {
   return c.html(html);
 });
 
-serve({
+const sendTodosToAllWebsockets = async () => {
+  try {
+    const todos = await db.select().from(todosTable).all();
+
+    const html = await ejs.renderFile('views/_todos.html', {
+      todos,
+    });
+
+    for (const webSocket of webSockets) {
+      webSocket.send(
+        JSON.stringify({
+          type: 'todos',
+          html,
+        }),
+      );
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const server = serve({
   fetch: app.fetch,
   port: 8000,
 });
+
+injectWebSocket(server);
