@@ -38,6 +38,7 @@ Aplikace umožňuje uživatelům vytvářet uzavřené skupiny, spravovat seznam
 
 ## 🎯 Důvody proč tohle téma
 
+- Chtěl bych si plně osvojit komunikaci skrze WebSockety; určitě využiju do budoucna v práci
 - Reálný projekt – po úspěšné implementaci chceme zkusit používat v práci
 - Vhodný přírůstek do portfolia pro státní závěrečnou zkoušku
 - Možnost vyzkoušet si nové technologie, API a knihovny (zejména na frontendu)
