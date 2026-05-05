@@ -22,11 +22,11 @@ Aplikace umožňuje uživatelům vytvářet uzavřené skupiny, spravovat seznam
 
 ## 🧱 Tech Stack
 
-- Forma: `REST API` + `SPA` webový klient
-- Backend: `Node.js` + `Hono`
-- Real-time komunikace: pravděpodobně pomocí `Socket.io`
-- Databáze: Nějaká relační DBMS
-- Frontend: jednoduché frontendové rozhraní (není hlavní důraz práce)
+- **Forma**: `REST API` + `SPA` webový klient
+- **Backend**: `Node.js` + `Hono`
+- **Real-time komunikace**: pravděpodobně pomocí `Socket.io`
+- **Databáze**: Nějaká relační DBMS
+- **Frontend**: jednoduché frontendové rozhraní (není hlavní důraz práce)
 
 ## 🗂️ Přehled předpokládaných entit
 
