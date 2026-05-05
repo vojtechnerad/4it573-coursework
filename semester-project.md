@@ -4,7 +4,7 @@
 
 Téma vychází z navrženého zadání: _Aplikace na hodnocení „věcí“ (skupina uživatelů hlasuje, co preferuje více a co méně)_.
 
-Cílem projektu je vytvořit webovou aplikaci, která řeší reálný každodenní problém kolektivu v pracovním prostředí: „Kam půjdeme na oběd?“. Aplikace si klade za cíl zefektivnit rozhodovací proces ve skupině a omezit nutnost neformálních a často zdlouhavých domluv.
+Cílem projektu je vytvořit webovou aplikaci, která řeší reálný každodenní problém našeho kolektivu v pracovním prostředí: „Kam půjdeme na oběd?“. Aplikace si klade za cíl zefektivnit rozhodovací proces ve skupině a omezit nutnost neformálních a často zdlouhavých domluv.
 
 Navržený systém umožní uživatelům vytvářet uzavřené skupiny, v jejichž rámci mohou spravovat seznam preferovaných restaurací a účastnit se hlasování. Každý uživatel bude mít možnost vyjádřit svou preferenci vůči jednotlivým možnostem, přičemž výsledky hlasování budou dostupné v reálném čase.
 
