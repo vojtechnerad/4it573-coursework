@@ -10,9 +10,48 @@ function getNumberToGuess() {
   return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
 }
 
-let currentGuess = 1;
-while (currentGuess <= maxNumberOfGuesses) {
-  const answer = prompt(`Guess a number between ${minNumber} and ${maxNumber}`);
+const guesses = [];
+const numberToGuess = getNumberToGuess();
 
-  currentGuess++;
+while (guesses.length + 1 <= maxNumberOfGuesses) {
+  const guess = prompt(
+    `Guess a number between ${minNumber} and ${maxNumber}
+    \nAttempt ${guesses.length + 1} of ${maxNumberOfGuesses}
+    \nPrevious guesses: ${guesses.join(', ')}`,
+  );
+
+  if (guess === null) {
+    console.log('Game cancelled.');
+    break;
+  }
+
+  const guessAsNumber = Number(guess);
+
+  if (isNaN(guessAsNumber)) {
+    console.log('Invalid input. Please enter a number.');
+    continue;
+  }
+
+  guesses.push(guessAsNumber);
+
+  if (
+    guesses.length === maxNumberOfGuesses &&
+    guessAsNumber !== numberToGuess
+  ) {
+    alert(
+      `Game over! You've used all ${maxNumberOfGuesses} guesses. The correct number was ${numberToGuess}.`,
+    );
+    break;
+  }
+
+  if (guessAsNumber === numberToGuess) {
+    alert(
+      `Congratulations! You guessed the number ${numberToGuess} in ${guesses.length} guesses.`,
+    );
+    break;
+  } else if (guessAsNumber < numberToGuess) {
+    alert('Too low! Try again.');
+  } else {
+    alert('Too high! Try again.');
+  }
 }
