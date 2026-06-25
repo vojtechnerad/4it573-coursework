@@ -28,23 +28,21 @@ while (guesses.length + 1 <= maxNumberOfGuesses) {
   const guessAsNumber = Number(guess);
 
   if (isNaN(guessAsNumber)) {
-    console.log('Invalid input. Please enter a number.');
+    alert('Invalid input. Please enter a number.');
     continue;
   }
 
   guesses.push(guessAsNumber);
 
-  if (
-    guesses.length === maxNumberOfGuesses &&
-    guessAsNumber !== numberToGuess
-  ) {
+  const isLastGuess = guesses.length === maxNumberOfGuesses;
+  const isGuessCorrect = guessAsNumber === numberToGuess;
+
+  if (isLastGuess && !isGuessCorrect) {
     alert(
       `Game over! You've used all ${maxNumberOfGuesses} guesses. The correct number was ${numberToGuess}.`,
     );
     break;
-  }
-
-  if (guessAsNumber === numberToGuess) {
+  } else if (isGuessCorrect) {
     alert(
       `Congratulations! You guessed the number ${numberToGuess} in ${guesses.length} guesses.`,
     );
