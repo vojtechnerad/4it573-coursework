@@ -15,6 +15,20 @@
       "when": 1774964659903,
       "tag": "0001_add_priority_column",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1777479547843,
+      "tag": "0002_curved_vulture",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1777479739043,
+      "tag": "0003_overconfident_inhumans",
+      "breakpoints": true
     }
   ]
 }
